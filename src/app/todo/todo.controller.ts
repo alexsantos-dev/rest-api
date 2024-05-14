@@ -1,10 +1,12 @@
-import { Controller, Get, Post, Body, Put, Param, Delete, HttpStatus } from '@nestjs/common'
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpStatus } from '@nestjs/common'
 import { TodoService } from './todo.service'
 import { CreateTodoDto } from './dto/create-todo.dto'
 import { UpdateTodoDto } from './dto/update-todo.dto'
 import { ParseUUIDPipe } from '@nestjs/common'
 import { HttpCode } from '@nestjs/common'
+import { ApiTags } from '@nestjs/swagger'
 @Controller('api/v1/todos')
+@ApiTags('Todo')
 export class TodoController {
   constructor(private readonly todoService: TodoService) { }
 
@@ -23,7 +25,7 @@ export class TodoController {
     return await this.todoService.findOne(id)
   }
 
-  @Put(':id')
+  @Patch(':id')
   async update(@Param('id', new ParseUUIDPipe()) id: string, @Body() data: UpdateTodoDto) {
     return await this.todoService.update(id, data)
   }

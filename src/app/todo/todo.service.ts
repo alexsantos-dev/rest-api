@@ -13,7 +13,11 @@ export class TodoService {
   ) { }
 
   async create(data: CreateTodoDto) {
-    return await this.todoRepository.save(this.todoRepository.create(data))
+    try {
+      return await this.todoRepository.save(this.todoRepository.create(data))
+    } catch (error) {
+      throw new BadRequestException(error.message)
+    }
   }
 
   async findAll() {

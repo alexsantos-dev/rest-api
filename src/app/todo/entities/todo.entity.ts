@@ -5,7 +5,7 @@ export class TodoEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string
 
-  @Column()
+  @Column({ unique: true })
   task: string
 
   @Column({ name: 'is_done', type: 'tinyint', width: 1 })
