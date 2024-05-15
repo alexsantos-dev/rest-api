@@ -46,9 +46,4 @@ export class TodoService {
     await this.findOne(id)
     await this.todoRepository.softDelete(id)
   }
-
-  async removeAll(task: string) {
-    const tasks = await this.todoRepository.find({ where: { task } })
-    await this.todoRepository.remove(tasks)
-  }
 }

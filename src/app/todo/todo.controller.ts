@@ -35,10 +35,4 @@ export class TodoController {
   async remove(@Param('id', new ParseUUIDPipe()) id: string) {
     await this.todoService.remove(id)
   }
-
-  @Delete('removeAll/:task')
-  @HttpCode(HttpStatus.NO_CONTENT)
-  async removeAll(@Param('task') task: string) {
-    await this.todoService.removeAll(task)
-  }
 }
