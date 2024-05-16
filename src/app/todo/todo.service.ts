@@ -12,7 +12,7 @@ export class TodoService {
     private readonly todoRepository: Repository<TodoEntity>
   ) { }
 
-  async create(data: CreateTodoDto) {
+  async create(data: CreateTodoDto): Promise<TodoEntity> {
     try {
       return await this.todoRepository.save(this.todoRepository.create(data))
     } catch (error) {
@@ -20,8 +20,16 @@ export class TodoService {
     }
   }
 
-  async findAll() {
-    return await this.todoRepository.find()
+  async findAll(): Promise<TodoEntity[]> {
+    try {
+      const results = await this.todoRepository.find()
+      if (results.length === 0) {
+        throw new Error('No results found for this operation')
+      }
+      return results
+    } catch (error) {
+      throw new NotFoundException(error.message)
+    }
   }
 
   async findOne(id: string): Promise<TodoEntity> {
@@ -32,17 +40,19 @@ export class TodoService {
     }
   }
 
-  async update(id: string, data: UpdateTodoDto) {
+  async update(id: string, data: UpdateTodoDto): Promise<TodoEntity> {
     try {
       const todo = await this.findOne(id)
-      this.todoRepository.merge(todo, data)
-      return await this.todoRepository.save(todo)
+      if (Object.keys(data).length === 0) {
+        throw new Error('Object data can´t be empty')
+      }
+      return await this.todoRepository.save(this.todoRepository.merge(todo, data))
     } catch (error) {
       throw new BadRequestException(error.message)
     }
   }
 
-  async remove(id: string) {
+  async remove(id: string): Promise<undefined> {
     await this.findOne(id)
     await this.todoRepository.softDelete(id)
   }
