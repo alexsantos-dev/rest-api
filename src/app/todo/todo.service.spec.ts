@@ -30,7 +30,7 @@ describe('TodoService', () => {
             find: jest.fn().mockResolvedValue(todoEntityList),
             findOneOrFail: jest.fn().mockResolvedValue(todoEntityList[0]),
             merge: jest.fn().mockReturnValue(updatedTodoEntity),
-            softDelete: jest.fn().mockReturnValue(undefined),
+            delete: jest.fn().mockReturnValue(undefined),
           }
         }
       ],
@@ -128,12 +128,12 @@ describe('TodoService', () => {
       expect(result).toBeUndefined()
       expect(todoService.findOne).toHaveBeenCalledTimes(1)
       expect(todoService.findOne).toHaveBeenCalledWith(id)
-      expect(todoRepository.softDelete).toHaveBeenCalledTimes(1)
-      expect(todoRepository.softDelete).toHaveBeenCalledWith(id)
+      expect(todoRepository.delete).toHaveBeenCalledTimes(1)
+      expect(todoRepository.delete).toHaveBeenCalledWith(id)
     })
 
     it('should throw an exception', () => {
-      jest.spyOn(todoRepository, 'softDelete').mockRejectedValueOnce(new Error())
+      jest.spyOn(todoRepository, 'delete').mockRejectedValueOnce(new Error())
 
       expect(todoService.remove).rejects.toThrow()
     })
