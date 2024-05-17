@@ -17,8 +17,5 @@ export class TodoEntity {
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: string
 
-  @DeleteDateColumn({ name: 'deleted_at' })
-  deletedAt: string
-
   constructor(public todo?: Partial<TodoEntity>) { }
 }

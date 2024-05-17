@@ -54,6 +54,6 @@ export class TodoService {
 
   async remove(id: string): Promise<undefined> {
     await this.findOne(id)
-    await this.todoRepository.softDelete(id)
+    await this.todoRepository.delete(id)
   }
 }
